@@ -11,12 +11,14 @@
             return{
                 store,
                 newTask: '',
+                emptyTask: true,
             }
         },
         methods : {
-            addTask () {
+            addWeeklyTask () {
                 if (store.tasksWeeklyList[0].singleWeeklyTask === 'Hai completato tutte le task!!!'){
                     store.tasksWeeklyList.splice(0, 1);
+                    this.emptyTask = false;
                 }
                 let addNewTask = {
                     singleWeeklyTask: this.newTask,
@@ -24,13 +26,14 @@
                 store.tasksWeeklyList.push(addNewTask);
                 this.newTask = '';
             },
-            deleteTask(index){
+            deleteWeeklyTask(index){
                 store.tasksWeeklyList.splice(index, 1);
                 if (store.tasksWeeklyList.length <= 0){
                     let addNewTask = {
                     singleWeeklyTask: 'Hai completato tutte le task!!!',
                     };
                     store.tasksWeeklyList.push(addNewTask);
+                    this.emptyTask = true;
                     this.newTask = '';
                 }
             },
@@ -43,11 +46,11 @@
         <TaskMenu></TaskMenu>
         <h2>WEEKLY TASKS</h2>
         <div class="input-wrapper">
-            <input @keyup.enter="addTask()" type="text" v-model="newTask" placeholder="Inserire qui la nuova task">
+            <input @keyup.enter="addWeeklyTask()" type="text" v-model="newTask" placeholder="Inserire qui la nuova task">
         </div>
         <div v-for="task, index in store.tasksWeeklyList" class="tasks-wrapper d-flex jst-btwn algn-cntr">
-            <div :class="store.tasksWeeklyList[0].singleWeeklyTask === 'Hai completato tutte le task!!!' ? 'txt-cntr' : ''" class="single-tasks">{{ task.singleWeeklyTask }}</div>
-            <button v-if="store.tasksWeeklyList[0].singleWeeklyTask !== 'Hai completato tutte le task!!!'" @click="deleteTask(index)">
+            <div :class="emptyTask === true ? 'txt-cntr' : ''" class="single-tasks">{{ task.singleWeeklyTask }}</div>
+            <button v-if="!emptyTask" @click="deleteWeeklyTask(index)">
                 <i class="fa-solid fa-rectangle-xmark"></i>
             </button>
         </div>

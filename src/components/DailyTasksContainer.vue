@@ -11,12 +11,14 @@
             return{
                 store,
                 newTask: '',
+                emptyTask: true,
             }
         },
         methods : {
-            addTask () {
+            addDailyTask () {
                 if (store.tasksDailyList[0].singleTask === 'Hai completato tutte le task!!!'){
                     store.tasksDailyList.splice(0, 1);
+                    this.emptyTask = false;
                 }
                 let addNewTask = {
                     singleTask: this.newTask,
@@ -24,13 +26,14 @@
                 store.tasksDailyList.push(addNewTask);
                 this.newTask = '';
             },
-            deleteTask(index){
+            deleteDailyTask(index){
                 store.tasksDailyList.splice(index, 1);
                 if (store.tasksDailyList.length <= 0){
                     let addNewTask = {
                     singleTask: 'Hai completato tutte le task!!!',
                     };
                     store.tasksDailyList.push(addNewTask);
+                    this.emptyTask = true;
                     this.newTask = '';
                 }
             },
@@ -43,11 +46,11 @@
         <TaskMenu></TaskMenu>
         <h2>DAILY TASKS</h2>
         <div class="input-wrapper">
-            <input @keyup.enter="addTask()" type="text" v-model="newTask" placeholder="Inserire qui la nuova task">
+            <input @keyup.enter="addDailyTask()" type="text" v-model="newTask" placeholder="Inserire qui la nuova task">
         </div>
         <div v-for="task, index in store.tasksDailyList" class="tasks-wrapper d-flex jst-btwn algn-cntr">
-            <div :class="store.tasksDailyList[0].singleTask === 'Hai completato tutte le task!!!' ? 'txt-cntr' : ''" class="single-tasks">{{ task.singleTask }}</div>
-            <button v-if="store.tasksDailyList[0].singleTask !== 'Hai completato tutte le task!!!'" @click="deleteTask(index)">
+            <div :class="emptyTask === true ? 'txt-cntr' : ''" class="single-tasks">{{ task.singleTask }}</div>
+            <button v-if="!emptyTask" @click="deleteDailyTask(index)">
                 <i class="fa-solid fa-rectangle-xmark"></i>
             </button>
         </div>
