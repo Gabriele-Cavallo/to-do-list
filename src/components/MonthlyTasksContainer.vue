@@ -22,6 +22,7 @@
                 }
                 let addNewTask = {
                     singleMonthlyTask: this.newTask,
+                    visible: true,
                 };
                 store.tasksMonthlyList.push(addNewTask);
                 this.newTask = '';
@@ -30,7 +31,8 @@
                 store.tasksMonthlyList.splice(index, 1);
                 if (store.tasksMonthlyList.length <= 0){
                     let addNewTask = {
-                    singleMonthlyTask: 'Hai completato tutte le task!!!',
+                        singleMonthlyTask: 'Hai completato tutte le task!!!',
+                        visible: true,
                     };
                     store.tasksMonthlyList.push(addNewTask);
                     this.emptyTask = true;
@@ -48,7 +50,7 @@
         <div class="input-wrapper">
             <input @keyup.enter="addMonthlyTask()" type="text" v-model="newTask" placeholder="Inserire qui la nuova task">
         </div>
-        <div v-for="task, index in store.tasksMonthlyList" class="tasks-wrapper d-flex jst-btwn algn-cntr">
+        <div v-for="task, index in store.tasksMonthlyList" :class="!task.visible && !emptyTask ? 'hidden' : ''" class="tasks-wrapper d-flex jst-btwn algn-cntr">
             <div :class="emptyTask === true ? 'txt-cntr' : ''" class="single-tasks">{{ task.singleMonthlyTask }}</div>
             <button v-if="!emptyTask" @click="deleteMonthlyTask(index)">
                 <i class="fa-solid fa-rectangle-xmark"></i>

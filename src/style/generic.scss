@@ -107,6 +107,9 @@ img{
 .active{
     color: darkred;
 }
+.tasks-wrapper.hidden{
+    display: none;
+}
 /* #endregion General Utilities */
 
 /* #region Flex-Utilities */

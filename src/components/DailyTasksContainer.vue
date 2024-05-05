@@ -22,6 +22,7 @@
                 }
                 let addNewTask = {
                     singleTask: this.newTask,
+                    visible: true,
                 };
                 store.tasksDailyList.push(addNewTask);
                 this.newTask = '';
@@ -30,7 +31,8 @@
                 store.tasksDailyList.splice(index, 1);
                 if (store.tasksDailyList.length <= 0){
                     let addNewTask = {
-                    singleTask: 'Hai completato tutte le task!!!',
+                        singleTask: 'Hai completato tutte le task!!!',
+                        visible: true,
                     };
                     store.tasksDailyList.push(addNewTask);
                     this.emptyTask = true;
@@ -48,7 +50,7 @@
         <div class="input-wrapper">
             <input @keyup.enter="addDailyTask()" type="text" v-model="newTask" placeholder="Inserire qui la nuova task">
         </div>
-        <div v-for="task, index in store.tasksDailyList" class="tasks-wrapper d-flex jst-btwn algn-cntr">
+        <div v-for="task, index in store.tasksDailyList" :class="!task.visible && !emptyTask ? 'hidden' : ''" class="tasks-wrapper d-flex jst-btwn algn-cntr">
             <div :class="emptyTask === true ? 'txt-cntr' : ''" class="single-tasks">{{ task.singleTask }}</div>
             <button v-if="!emptyTask" @click="deleteDailyTask(index)">
                 <i class="fa-solid fa-rectangle-xmark"></i>
