@@ -10,6 +10,8 @@
             }
         },
         methods: {
+            // Funzione che permette di cercare le task che contengono gli stessi caratteri scritti nell'input di search
+            // in base alla sezione attiva
             searchTask(activeSection){
                 if(activeSection === 0){
                     store.tasksDailyList.forEach(singleTask => {
@@ -49,6 +51,7 @@
 
 <template>
     <div class="input-wrapper d-flex jst-cntr algn-cntr">
+        <!-- Ogni tasto premuto lancia la funzione che filtra le task da mostrare -->
         <input @keyup="searchTask(store.activeSection)" v-model="this.searchedTask" type="text" placeholder="Search Task">
     </div>
 </template>

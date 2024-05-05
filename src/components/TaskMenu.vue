@@ -20,6 +20,7 @@
             }
         },
         methods : {
+            // Funzione che permette di cambiare la sezione attiva
             sectionActivate (index) {
                 store.activeSection = index ;
             }
@@ -29,6 +30,8 @@
 
 <template>
     <section class="tasks-menu d-flex flex-col algn-cntr">
+        <!-- Genera una sezione per ogni elemento dentro l'array tasksRange  -->
+        <!-- Al click dell'elemento cambia la sezione attiva -->
         <div @click="sectionActivate (index)" v-for="range, index in tasksRange" class="task-wrapper" :class="store.activeSection === index ? 'active' : ''">
             <i class="fa-solid fa-list-check"></i>
             <div>{{range.range}}</div>

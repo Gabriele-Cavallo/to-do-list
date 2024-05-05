@@ -16,6 +16,7 @@
             }
         },
         methods : {
+            // Funzione che permette di aggiungere nuove task o mostrare un messaggio info se le task sono esaurite
             addDailyTask () {
                 if (store.tasksDailyList[0].singleTask === 'Hai completato tutte le task!!!'){
                     store.tasksDailyList.splice(0, 1);
@@ -28,6 +29,7 @@
                 store.tasksDailyList.unshift(addNewTask);
                 this.newTask = '';
             },
+            // Funzione che permette di togliere dalla lista la task selezionata
             deleteDailyTask(index){
                 store.tasksDailyList.splice(index, 1);
                 if (store.tasksDailyList.length <= 0){
@@ -45,15 +47,20 @@
 </script>
 
 <template>
+    <!-- Mostra la sezione solo le viene selezionato il "bottone" corrispondente -->
     <section v-if="store.activeSection === 0" class="container">
         <TaskMenu></TaskMenu>
         <h2>DAILY TASKS</h2>
         <div class="input-wrapper">
+            <!-- Premendo il tasto enter aggiunge alla lista la nuova task tramite la funzione addDailyTask -->
             <input @keyup.enter="addDailyTask()" type="text" v-model="newTask" placeholder="Inserire qui la nuova task">
         </div>
         <transition-group name="list" tag="ul" mode="in-out" appear>
-            <li v-for="task, index in store.tasksDailyList" :key="task" :class="!task.visible && !emptyTask ? 'hidden' : ''" class="tasks-wrapper d-flex jst-btwn algn-cntr">
+            <!-- Per ogni task all'interno dell'array tasksDailyList crea un list item da mostrare a schermo -->
+            <!-- Aggiunge la classe hidden se il valore visible dell'object è false e ci sono task nell'array -->
+            <li v-for="task, index in store.tasksDailyList" :key="task" :class="!task.visible && !emptyTask ? 'hidden' : '' " class="tasks-wrapper d-flex jst-btwn algn-cntr">
                 <div :class="emptyTask === true ? 'txt-cntr' : ''" class="single-tasks">{{ task.singleTask }}</div>
+                <!-- Se ci sono task nell'array mostra il bottone per cancellare la task -->
                 <button v-if="!emptyTask" @click="deleteDailyTask(index)">
                     <i class="fa-solid fa-rectangle-xmark"></i>
                 </button>
