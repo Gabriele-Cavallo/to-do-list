@@ -51,7 +51,7 @@
         <div class="input-wrapper">
             <input @keyup.enter="addDailyTask()" type="text" v-model="newTask" placeholder="Inserire qui la nuova task">
         </div>
-        <transition-group name="fade" tag="ul" mode="in-out" appear>
+        <transition-group name="list" tag="ul" mode="in-out" appear>
             <li v-for="task, index in store.tasksDailyList" :key="task" :class="!task.visible && !emptyTask ? 'hidden' : ''" class="tasks-wrapper d-flex jst-btwn algn-cntr">
                 <div :class="emptyTask === true ? 'txt-cntr' : ''" class="single-tasks">{{ task.singleTask }}</div>
                 <button v-if="!emptyTask" @click="deleteDailyTask(index)">

@@ -1,4 +1,5 @@
 <script>
+    import { TransitionGroup } from 'vue';
     import { store } from '../store.js';
     import TaskMenu from './TaskMenu.vue';
 
@@ -24,7 +25,7 @@
                     singleMonthlyTask: this.newTask,
                     visible: true,
                 };
-                store.tasksMonthlyList.push(addNewTask);
+                store.tasksMonthlyList.unshift(addNewTask);
                 this.newTask = '';
             },
             deleteMonthlyTask(index){
@@ -50,12 +51,14 @@
         <div class="input-wrapper">
             <input @keyup.enter="addMonthlyTask()" type="text" v-model="newTask" placeholder="Inserire qui la nuova task">
         </div>
-        <div v-for="task, index in store.tasksMonthlyList" :class="!task.visible && !emptyTask ? 'hidden' : ''" class="tasks-wrapper d-flex jst-btwn algn-cntr">
-            <div :class="emptyTask === true ? 'txt-cntr' : ''" class="single-tasks">{{ task.singleMonthlyTask }}</div>
-            <button v-if="!emptyTask" @click="deleteMonthlyTask(index)">
-                <i class="fa-solid fa-rectangle-xmark"></i>
-            </button>
-        </div>
+        <transition-group name="list" tag="ul" mode="in-out" appear>
+            <li v-for="task, index in store.tasksMonthlyList" :key="task" :class="!task.visible && !emptyTask ? 'hidden' : ''" class="tasks-wrapper d-flex jst-btwn algn-cntr">
+                <div :class="emptyTask === true ? 'txt-cntr' : ''" class="single-tasks">{{ task.singleMonthlyTask }}</div>
+                <button v-if="!emptyTask" @click="deleteMonthlyTask(index)">
+                    <i class="fa-solid fa-rectangle-xmark"></i>
+                </button>
+            </li>
+        </transition-group>
     </section>
 </template>
 
@@ -91,21 +94,24 @@
             font-size: 20px;
         }
     }
-    .tasks-wrapper{
-        border: 1px solid black;
-        margin: 10px auto;
-        width: 60%;
-        background-color: $bg-color;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 1px 1px 1px 1px;
-        font-size: 20px;
-        button{
-            margin-left: 10px;
-            background-color: transparent;
-            border: none;
-            i{
-                font-size: 25px;
+    ul{
+        position: relative;
+        .tasks-wrapper{
+            border: 1px solid black;
+            margin: 10px auto;
+            width: 60%;
+            background-color: $bg-color;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 1px 1px 1px 1px;
+            font-size: 20px;
+            button{
+                margin-left: 10px;
+                background-color: transparent;
+                border: none;
+                i{
+                    font-size: 25px;
+                }
             }
         }
     }
